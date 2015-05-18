@@ -7,7 +7,7 @@ var Concat = require('concat-with-sourcemaps');
 
 function addUsedHelpers(concat, results) {
 	var usedHelpers = getUsedExternalHelpers(results);
-	concat.add('helpers.js', babel.buildExternalHelpers(usedHelpers, 'var'));
+	concat.add('helpers.js', babel.buildExternalHelpers(usedHelpers));
 }
 
 function compileToGlobals(files, options) {
