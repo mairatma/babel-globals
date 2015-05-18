@@ -1,0 +1,32 @@
+{
+  "name": "babel-globals",
+  "version": "0.1.0",
+  "description": "Compiles javascript files and all their dependencies with babel.",
+  "license": "MIT",
+  "repository": "babel-globals",
+  "author": {
+    "name": "Maira Bello",
+    "email": "maira.araujo@liferay.com"
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "test": "istanbul cover nodeunit -- test/test.js"
+  },
+  "keywords": [
+    "babel",
+    "es6",
+    "globals"
+  ],
+  "dependencies": {
+    "babel-core": "^5.4.3",
+    "babel-deps": "^0.1.1",
+    "babel-globals-module-formatter": "^0.1.4",
+    "concat-with-sourcemaps": "^1.0.2"
+  }
+}
