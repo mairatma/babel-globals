@@ -6,4 +6,4 @@ class Bar {
 	}
 }
 
-export default Bar;
+export {Bar};

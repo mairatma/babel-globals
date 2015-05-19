@@ -41,6 +41,7 @@ function getUsedExternalHelpers(results) {
 function initializeGlobalVar(concat, options) {
 	if (!options.skipGlobalVarInit) {
 		concat.add('init.js', 'this.' + options.babelOptions._globalName + ' = {};');
+		concat.add('initNamed.js', 'this.' + options.babelOptions._globalName + 'Named = {};');
 	}
 }
 

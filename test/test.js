@@ -49,9 +49,12 @@ module.exports = {
 		assert.ok(result);
 
 		var myGlobals = {};
+		var myGlobalsNamed = {};
 		this.myGlobals = myGlobals;
+		this.myGlobalsNamed = myGlobalsNamed;
 		eval(result.content.toString());
 		assert.notStrictEqual(myGlobals, this.myGlobals);
+		assert.notStrictEqual(myGlobalsNamed, this.myGlobalsNamed);
 
 		test.done();
 	},
@@ -62,9 +65,12 @@ module.exports = {
 		assert.ok(result);
 
 		var myGlobals = {};
+		var myGlobalsNamed = {};
 		this.myGlobals = myGlobals;
+		this.myGlobalsNamed = myGlobalsNamed;
 		eval(result.content.toString());
 		assert.strictEqual(myGlobals, this.myGlobals);
+		assert.strictEqual(myGlobalsNamed, this.myGlobalsNamed);
 
 		test.done();
 	},
