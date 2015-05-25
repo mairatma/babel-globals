@@ -16,7 +16,9 @@
     "index.js"
   ],
   "scripts": {
-    "test": "istanbul cover nodeunit -- test/test.js"
+    "coverage": "istanbul cover nodeunit -- test/test.js",
+    "lint": "jshint test/test.js index.js",
+    "test": "nodeunit test/test.js"
   },
   "keywords": [
     "babel",

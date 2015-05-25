@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 var babelGlobals = require('../index');
 var fs = require('fs');
@@ -9,7 +11,7 @@ module.exports = {
 		var result = babelGlobals(files);
 		assert.ok(result);
 
-		eval(result.content.toString());
+		eval(result.content.toString()); // jshint ignore:line
 		assert.ok(this.myGlobals.main);
 		assert.strictEqual('foo bar', this.myGlobals.main);
 
@@ -33,7 +35,7 @@ module.exports = {
 		});
 		assert.ok(result);
 
-		eval(result.content.toString());
+		eval(result.content.toString()); // jshint ignore:line
 		assert.ok(this.myGlobals.mainAlias);
 		assert.strictEqual('foo bar', this.myGlobals.mainAlias);
 
@@ -52,7 +54,7 @@ module.exports = {
 		var myGlobalsNamed = {};
 		this.myGlobals = myGlobals;
 		this.myGlobalsNamed = myGlobalsNamed;
-		eval(result.content.toString());
+		eval(result.content.toString()); // jshint ignore:line
 		assert.notStrictEqual(myGlobals, this.myGlobals);
 		assert.notStrictEqual(myGlobalsNamed, this.myGlobalsNamed);
 
@@ -68,7 +70,7 @@ module.exports = {
 		var myGlobalsNamed = {};
 		this.myGlobals = myGlobals;
 		this.myGlobalsNamed = myGlobalsNamed;
-		eval(result.content.toString());
+		eval(result.content.toString()); // jshint ignore:line
 		assert.strictEqual(myGlobals, this.myGlobals);
 		assert.strictEqual(myGlobalsNamed, this.myGlobalsNamed);
 
@@ -80,7 +82,7 @@ module.exports = {
 		var result = babelGlobals(files, {globalName: 'foo'});
 		assert.ok(result);
 
-		eval(result.content.toString());
+		eval(result.content.toString()); // jshint ignore:line
 		assert.ok(this.foo.main);
 		assert.strictEqual('foo bar', this.foo.main);
 
@@ -95,7 +97,7 @@ module.exports = {
 		var result = babelGlobals(files, {bundleFileName: 'myGlobals.js'});
 		assert.ok(result);
 
-		eval(result.content.toString());
+		eval(result.content.toString()); // jshint ignore:line
 		assert.ok(this.myGlobals.main);
 		assert.strictEqual('foo bar', this.myGlobals.main);
 
