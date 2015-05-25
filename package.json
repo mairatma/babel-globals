@@ -30,5 +30,10 @@
     "babel-deps": "^0.1.1",
     "babel-plugin-globals": "^0.1.0",
     "concat-with-sourcemaps": "^1.0.2"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.14",
+    "jshint": "^2.7.0",
+    "nodeunit": "^0.9.1"
   }
 }
