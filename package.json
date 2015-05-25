@@ -1,6 +1,6 @@
 {
   "name": "babel-globals",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Compiles javascript files and all their dependencies with babel.",
   "license": "MIT",
   "repository": "mairatma/babel-globals",
