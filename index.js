@@ -2,7 +2,6 @@
 
 var babel = require('babel-core');
 var babelDeps = require('babel-deps');
-var BabelGlobalsFormatter = require('babel-globals-module-formatter');
 var Concat = require('concat-with-sourcemaps');
 
 function addUsedHelpers(concat, results) {
@@ -58,7 +57,8 @@ function normalizeOptions(options) {
   } else {
     options.babelOptions.resolveModuleSource = resolveModuleSource;
   }
-  options.babelOptions.modules = BabelGlobalsFormatter;
+  options.babelOptions.blacklist = ['es6.modules'].concat(options.babelOptions.blacklist || []);
+  options.babelOptions.plugins = ['globals:after'].concat(options.babelOptions.plugins || []);
   options.babelOptions._globalName = options.globalName || 'myGlobals';
 
   options.bundleFileName = options.bundleFileName || 'bundle.js';
