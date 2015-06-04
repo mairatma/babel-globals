@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "babel-core": "^5.4.3",
-    "babel-deps": "^0.1.1",
+    "babel-deps": "^0.2.0",
     "babel-plugin-globals": "^0.1.0",
     "concat-with-sourcemaps": "^1.0.2"
   },

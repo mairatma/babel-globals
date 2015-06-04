@@ -39,7 +39,7 @@ An array of files to be compiled with their dependencies. Each element of the ar
 
 An object with the following options:
 
-- `babelOptions` **{Object=}** An object with babel options that should be used for all files. File specific options will be merged with this before the file is compiled, so they have higher priority.
+- `babel` **{Object=}** An object with babel options that should be used for all files. File specific options will be merged with this before the file is compiled, so they have higher priority.
 - `bundleFileName` **{string=}** The name of the bundled file. Defaults to *bundle.js*.
 - `globalName` **{string=}** The name of the global variable the modules will be exported to. Defaults to *myGlobals*.
 - `skipGlobalVarInit` **{boolean=}** If true, will not initialize the global variable. Set this to true if the variable will be initialized somewhere else.

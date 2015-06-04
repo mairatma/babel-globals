@@ -17,7 +17,7 @@ function compileToGlobals(files, options) {
   visited = {};
 
   options = normalizeOptions(options);
-  var results = babelDeps(files, options.babelOptions);
+  var results = babelDeps(files, options);
   var orderedResults = sortModules(results);
 
   var concat = new Concat(true, options.bundleFileName, '\n');
@@ -42,27 +42,27 @@ function getUsedExternalHelpers(results) {
 
 function initializeGlobalVar(concat, options) {
   if (!options.skipGlobalVarInit) {
-    concat.add('init.js', 'this.' + options.babelOptions._globalName + ' = {};');
-    concat.add('initNamed.js', 'this.' + options.babelOptions._globalName + 'Named = {};');
+    concat.add('init.js', 'this.' + options.babel._globalName + ' = {};');
+    concat.add('initNamed.js', 'this.' + options.babel._globalName + 'Named = {};');
   }
 }
 
 function normalizeOptions(options) {
   options = options || {};
-  options.babelOptions = options.babelOptions || {};
-  options.babelOptions.externalHelpers = true;
-  options.babelOptions.metadataUsedHelpers = true;
-  if (options.babelOptions.resolveModuleSource) {
-    var originalFn = options.babelOptions.resolveModuleSource;
-    options.babelOptions.resolveModuleSource = function(source, filename) {
+  options.babel = options.babel || {};
+  options.babel.externalHelpers = true;
+  options.babel.metadataUsedHelpers = true;
+  if (options.babel.resolveModuleSource) {
+    var originalFn = options.babel.resolveModuleSource;
+    options.babel.resolveModuleSource = function(source, filename) {
       return resolveModuleSource(originalFn(source, filename), filename);
     };
   } else {
-    options.babelOptions.resolveModuleSource = resolveModuleSource;
+    options.babel.resolveModuleSource = resolveModuleSource;
   }
-  options.babelOptions.blacklist = ['es6.modules'].concat(options.babelOptions.blacklist || []);
-  options.babelOptions.plugins = [globalsPluginObj].concat(options.babelOptions.plugins || []);
-  options.babelOptions._globalName = options.globalName || 'myGlobals';
+  options.babel.blacklist = ['es6.modules'].concat(options.babel.blacklist || []);
+  options.babel.plugins = [globalsPluginObj].concat(options.babel.plugins || []);
+  options.babel._globalName = options.globalName || 'myGlobals';
 
   options.bundleFileName = options.bundleFileName || 'bundle.js';
   return options;

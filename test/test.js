@@ -24,7 +24,7 @@ module.exports = {
   testBuildGlobalsAlias: function(test) {
     var files = [getFile(path.resolve('test/assets/mainAlias.js'))];
     var result = babelGlobals(files, {
-      babelOptions: {
+      babel: {
         resolveModuleSource: function(source) {
           if (source[0] !== '.') {
             source = './' + source;
