@@ -51,7 +51,6 @@ function normalizeOptions(options) {
   options = options || {};
   options.babel = options.babel || {};
   options.babel.externalHelpers = true;
-  options.babel.metadataUsedHelpers = true;
   if (options.babel.resolveModuleSource) {
     var originalFn = options.babel.resolveModuleSource;
     options.babel.resolveModuleSource = function(source, filename) {
