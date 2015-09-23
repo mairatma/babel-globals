@@ -50,13 +50,17 @@ module.exports = {
     var result = babelGlobals(files);
     assert.ok(result);
 
-    var myGlobals = {};
-    var myGlobalsNamed = {};
+    var myGlobals = {a: 1};
+    var myGlobalsNamed = {b: 1};
     this.myGlobals = myGlobals;
     this.myGlobalsNamed = myGlobalsNamed;
     eval(result.content.toString()); // jshint ignore:line
-    assert.notStrictEqual(myGlobals, this.myGlobals);
-    assert.notStrictEqual(myGlobalsNamed, this.myGlobalsNamed);
+    assert.strictEqual(myGlobals, this.myGlobals);
+    assert.strictEqual(1, myGlobals.a);
+    assert.ok(myGlobals.Foo);
+    assert.strictEqual(myGlobalsNamed, this.myGlobalsNamed);
+    assert.strictEqual(1, myGlobalsNamed.b);
+    assert.ok(myGlobalsNamed.Bar);
 
     test.done();
   },
