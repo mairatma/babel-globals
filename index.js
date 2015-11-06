@@ -2,6 +2,8 @@
 
 var babel = require('babel-core');
 var babelDeps = require('babel-deps');
+var babelPluginExternalHelpers = require('babel-plugin-external-helpers-2');
+var babelPluginGlobals = require('babel-plugin-globals');
 var Concat = require('concat-with-sourcemaps');
 
 function addUsedHelpers(concat, results) {
@@ -61,10 +63,10 @@ function normalizeOptions(options) {
     options.babel.resolveModuleSource = resolveModuleSource;
   }
 
-  var globalsPlugin = ['globals', {
+  var globalsPlugin = [babelPluginGlobals, {
     globalName: options.globalName
   }];
-  options.babel.plugins = (options.babel.plugins || []).concat([globalsPlugin, 'external-helpers-2']);
+  options.babel.plugins = (options.babel.plugins || []).concat([globalsPlugin, babelPluginExternalHelpers]);
 
   return options;
 }
