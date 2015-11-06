@@ -1,9 +1,9 @@
 'use strict';
 
-class Foo {
-	static value() {
+var Foo = {
+	value: function() {
 		return 'foo';
 	}
-}
+};
 
 export default Foo;

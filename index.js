@@ -2,10 +2,7 @@
 
 var babel = require('babel-core');
 var babelDeps = require('babel-deps');
-var babelPluginGlobals = require('babel-plugin-globals');
 var Concat = require('concat-with-sourcemaps');
-
-var globalsPluginObj = {transformer: babelPluginGlobals, position: 'after'};
 
 function addUsedHelpers(concat, results) {
   var usedHelpers = getUsedExternalHelpers(results);
@@ -42,7 +39,7 @@ function getUsedExternalHelpers(results) {
 
 function initializeGlobalVar(concat, options) {
   if (!options.skipGlobalVarInit) {
-    var globalAccess = 'this.' + options.babel._globalName;
+    var globalAccess = 'this.' + options.globalName;
     concat.add('init.js', globalAccess + ' = ' + globalAccess + ' || {};');
     concat.add('initNamed.js', globalAccess + 'Named = ' + globalAccess + 'Named || {};');
   }
@@ -51,7 +48,10 @@ function initializeGlobalVar(concat, options) {
 function normalizeOptions(options) {
   options = options || {};
   options.babel = options.babel || {};
-  options.babel.externalHelpers = true;
+
+  options.globalName = options.globalName || 'myGlobals';
+  options.bundleFileName = options.bundleFileName || 'bundle.js';
+
   if (options.babel.resolveModuleSource) {
     var originalFn = options.babel.resolveModuleSource;
     options.babel.resolveModuleSource = function(source, filename) {
@@ -60,11 +60,12 @@ function normalizeOptions(options) {
   } else {
     options.babel.resolveModuleSource = resolveModuleSource;
   }
-  options.babel.blacklist = ['es6.modules'].concat(options.babel.blacklist || []);
-  options.babel.plugins = [globalsPluginObj].concat(options.babel.plugins || []);
-  options.babel._globalName = options.globalName || 'myGlobals';
 
-  options.bundleFileName = options.bundleFileName || 'bundle.js';
+  var globalsPlugin = ['globals', {
+    globalName: options.globalName
+  }];
+  options.babel.plugins = (options.babel.plugins || []).concat([globalsPlugin, 'external-helpers-2']);
+
   return options;
 }
 
