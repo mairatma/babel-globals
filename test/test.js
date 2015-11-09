@@ -131,6 +131,24 @@ module.exports = {
     assert.strictEqual('myGlobals.js', JSON.parse(result.sourceMap).file);
 
     test.done();
+  },
+
+  testUsedHelpersBeingAdded: function(test) {
+    var files = [getFile(path.resolve('test/assets/TypeOf.js'))];
+    var result = babelGlobals(files, {
+      babel: {
+        plugins: [
+          'transform-es2015-classes',
+          'transform-es2015-block-scoping',
+          'transform-es2015-typeof-symbol/'
+        ]
+      }
+    });
+
+    eval(result.content.toString()); // jshint ignore:line
+    assert.strictEqual('foo bar string', this.myGlobals.TypeOf);
+    assert.ok(global.babelHelpers._typeof);
+    test.done();
   }
 };
 

@@ -35,6 +35,7 @@
   "devDependencies": {
     "babel-plugin-transform-es2015-block-scoping": "^6.0.18",
     "babel-plugin-transform-es2015-classes": "^6.1.2",
+    "babel-plugin-transform-es2015-typeof-symbol": "^6.1.2",
     "istanbul": "^0.3.14",
     "jshint": "^2.7.0",
     "nodeunit": "^0.9.1"
