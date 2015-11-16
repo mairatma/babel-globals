@@ -33,13 +33,7 @@ function getUsedExternalHelpers(results) {
   for (var i = 0; i < results.length; i++) {
     var currHelpers = results[i].babel.metadata.usedHelpers;
     for (var j = 0; j < currHelpers.length; j++) {
-      var name = currHelpers[j];
-
-      // Temporary fix for a babel bug (see https://github.com/babel/babel/issues/2940).
-      if (name === 'typeof') {
-        name = '_typeof';
-      }
-      hasHelper[name] = true;
+      hasHelper[currHelpers[j]] = true;
     }
   }
   return Object.keys(hasHelper);
