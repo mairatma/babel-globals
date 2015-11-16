@@ -27,6 +27,28 @@ var bundle = babelGlobals(files, {
 // Bundle will contain all the modules, which will be available at this.foo
 ```
 
+## Babel 6
+
+Note that since **babel-globals** is not using [Babel 6](http://babeljs.io/blog/2015/10/29/6.0.0/), it won't transpile ES2015 automatically anymore. To do that it's necessary to pass plugins or presets to babel, indicating what it should do.
+
+For example, to use babel-globals on an ES2015 project you should have something like this:
+
+```javascript
+var bundle = babelGlobals(files, {
+  babel: {
+    presets: ['es2015']
+  },
+  bundleFileName: 'bundle.js',
+  globalName: 'foo'
+});
+```
+
+Note that you need to first install the preset to use it, like this:
+
+```sh
+$ npm install --save-dev babel-preset-es2015
+```
+
 ## API
 
 ### files
