@@ -12,9 +12,6 @@ function addUsedHelpers(concat, results) {
 }
 
 function compileToGlobals(files, options) {
-  dependencies = {};
-  visited = {};
-
   options = normalizeOptions(options);
   var results = babelDeps(files, options);
   var orderedResults = sortModules(results);
@@ -49,20 +46,11 @@ function initializeGlobalVar(concat, options) {
 
 function normalizeOptions(options) {
   options = options || {};
-  options.babel = options.babel || {};
 
   options.globalName = options.globalName || 'myGlobals';
   options.bundleFileName = options.bundleFileName || 'bundle.js';
 
-  if (options.babel.resolveModuleSource) {
-    var originalFn = options.babel.resolveModuleSource;
-    options.babel.resolveModuleSource = function(source, filename) {
-      return resolveModuleSource(originalFn(source, filename), filename);
-    };
-  } else {
-    options.babel.resolveModuleSource = resolveModuleSource;
-  }
-
+  options.babel = options.babel || {};
   var globalsPlugin = [babelPluginGlobals, {
     globalName: options.globalName
   }];
@@ -71,25 +59,24 @@ function normalizeOptions(options) {
   return options;
 }
 
-var dependencies = {};
 var visited = {};
-function resolveModuleSource(source, filename) {
-  dependencies[filename] = dependencies[filename] || [];
-  dependencies[filename].push(babelDeps.getFullPath(source, filename));
-  return source;
-}
+var pathToResults = {};
 
 function sortModules(results) {
-  var orderedResultPaths = [];
-  var pathToResults = {};
+  pathToResults = {};
   for (var i = 0; i < results.length; i++) {
     pathToResults[results[i].path] = results[i];
-    visit(results[i].path, orderedResultPaths);
+  }
+
+  var orderedResultPaths = [];
+  visited = {};
+  for (var j = 0; j < results.length; j++) {
+    visit(results[j].path, orderedResultPaths);
   }
 
   var orderedResults = [];
-  for (var j = 0; j < orderedResultPaths.length; j++) {
-    orderedResults.push(pathToResults[orderedResultPaths[j]]);
+  for (var k = 0; k < orderedResultPaths.length; k++) {
+    orderedResults.push(pathToResults[orderedResultPaths[k]]);
   }
   return orderedResults;
 }
@@ -100,9 +87,9 @@ function visit(filePath, orderedArr) {
   }
   visited[filePath] = true;
 
-  var deps = dependencies[filePath] || [];
+  var deps = pathToResults[filePath].babel.metadata.modules.imports;
   deps.forEach(function(dep) {
-    visit(dep, orderedArr);
+    visit(babelDeps.getFullPath(dep.source, filePath), orderedArr);
   });
   orderedArr.push(filePath);
 }
