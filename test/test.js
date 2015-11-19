@@ -147,7 +147,7 @@ module.exports = {
 
     eval(result.content.toString()); // jshint ignore:line
     assert.strictEqual('foo bar string', this.myGlobals.TypeOf);
-    assert.ok(global.babelHelpers.typeof);
+    assert.notStrictEqual(-1, result.content.toString().indexOf('var babelHelpers = {}'));
     test.done();
   }
 };

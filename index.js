@@ -8,7 +8,7 @@ var Concat = require('concat-with-sourcemaps');
 
 function addUsedHelpers(concat, results) {
   var usedHelpers = getUsedExternalHelpers(results);
-  concat.add('helpers.js', babel.buildExternalHelpers(usedHelpers));
+  concat.add(null, babel.buildExternalHelpers(usedHelpers, 'var'));
 }
 
 function compileToGlobals(files, options) {
@@ -17,11 +17,13 @@ function compileToGlobals(files, options) {
   var orderedResults = sortModules(results);
 
   var concat = new Concat(true, options.bundleFileName, '\n');
+  concat.add(null, '(function() {');
   initializeGlobalVar(concat, options);
   addUsedHelpers(concat, results);
   for (var i = 0; i < orderedResults.length; i++) {
     concat.add(orderedResults[i].path, orderedResults[i].babel.code, orderedResults[i].babel.map);
   }
+  concat.add(null, '}).call(this);');
   return concat;
 }
 
@@ -39,8 +41,8 @@ function getUsedExternalHelpers(results) {
 function initializeGlobalVar(concat, options) {
   if (!options.skipGlobalVarInit) {
     var globalAccess = 'this.' + options.globalName;
-    concat.add('init.js', globalAccess + ' = ' + globalAccess + ' || {};');
-    concat.add('initNamed.js', globalAccess + 'Named = ' + globalAccess + 'Named || {};');
+    concat.add(null, globalAccess + ' = ' + globalAccess + ' || {};');
+    concat.add(null, globalAccess + 'Named = ' + globalAccess + 'Named || {};');
   }
 }
 
