@@ -8,4 +8,4 @@ class UsingClasses {
     return Foo.value() + ' ' + Bar.value()
   }
 }
-export default UsingClasses;
+export default UsingClasses.value();

@@ -2,9 +2,10 @@
 
 var babel = require('babel-core');
 var babelDeps = require('babel-deps');
-var babelPluginExternalHelpers = require('babel-plugin-external-helpers-2');
 var babelPluginGlobals = require('babel-plugin-globals');
 var Concat = require('concat-with-sourcemaps');
+
+var globalsPluginObj = {transformer: babelPluginGlobals, position: 'after'};
 
 function addUsedHelpers(concat, results) {
   var usedHelpers = getUsedExternalHelpers(results);
@@ -53,10 +54,10 @@ function normalizeOptions(options) {
   options.bundleFileName = options.bundleFileName || 'bundle.js';
 
   options.babel = options.babel || {};
-  var globalsPlugin = [babelPluginGlobals, {
-    globalName: options.globalName
-  }];
-  options.babel.plugins = (options.babel.plugins || []).concat([globalsPlugin, babelPluginExternalHelpers]);
+  options.babel.externalHelpers = true;
+  options.babel.blacklist = ['es6.modules'].concat(options.babel.blacklist || []);
+  options.babel.plugins = [globalsPluginObj].concat(options.babel.plugins || []);
+  options.babel._globalName = options.globalName;
 
   return options;
 }

@@ -26,16 +26,12 @@
     "globals"
   ],
   "dependencies": {
-    "babel-core": "^6.1.2",
-    "babel-deps": "^1.1.0",
-    "babel-plugin-external-helpers-2": "^6.0.15",
-    "babel-plugin-globals": "^1.0.1",
+    "babel-core": "^5.4.3",
+    "babel-deps": "^2.0.0-babel5",
+    "babel-plugin-globals": "^0.1.3",
     "concat-with-sourcemaps": "^1.0.2"
   },
   "devDependencies": {
-    "babel-plugin-transform-es2015-block-scoping": "^6.0.18",
-    "babel-plugin-transform-es2015-classes": "^6.1.2",
-    "babel-plugin-transform-es2015-typeof-symbol": "^6.1.2",
     "istanbul": "^0.3.14",
     "jshint": "^2.7.0",
     "nodeunit": "^0.9.1"

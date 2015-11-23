@@ -21,28 +21,6 @@ module.exports = {
     test.done();
   },
 
-  testBuildGlobalsWithMorePlugins: function(test) {
-    var files = [getFile(path.resolve('test/assets/UsingClasses.js'))];
-    var result = babelGlobals(files, {
-      babel: {
-        plugins: [
-          'transform-es2015-classes',
-          'transform-es2015-block-scoping'
-        ]
-      }
-    });
-    assert.ok(result);
-
-    eval(result.content.toString()); // jshint ignore:line
-    assert.ok(this.myGlobals.UsingClasses);
-    assert.strictEqual('foo bar', this.myGlobals.UsingClasses.value());
-
-    assert.ok(result.sourceMap);
-    assert.strictEqual('bundle.js', JSON.parse(result.sourceMap).file);
-
-    test.done();
-  },
-
   testBuildGlobalsAlias: function(test) {
     var files = [getFile(path.resolve('test/assets/mainAlias.js'))];
     var result = babelGlobals(files, {
@@ -134,19 +112,11 @@ module.exports = {
   },
 
   testUsedHelpersBeingAdded: function(test) {
-    var files = [getFile(path.resolve('test/assets/TypeOf.js'))];
-    var result = babelGlobals(files, {
-      babel: {
-        plugins: [
-          'transform-es2015-classes',
-          'transform-es2015-block-scoping',
-          'transform-es2015-typeof-symbol/'
-        ]
-      }
-    });
+    var files = [getFile(path.resolve('test/assets/UsingClasses.js'))];
+    var result = babelGlobals(files);
 
     eval(result.content.toString()); // jshint ignore:line
-    assert.strictEqual('foo bar string', this.myGlobals.TypeOf);
+    assert.strictEqual('foo bar', this.myGlobals.UsingClasses);
     assert.notStrictEqual(-1, result.content.toString().indexOf('var babelHelpers = {}'));
     test.done();
   }
