@@ -4,6 +4,7 @@ var assert = require('assert');
 var babelGlobals = require('../index');
 var fs = require('fs');
 var path = require('path');
+var sinon = require('sinon');
 
 module.exports = {
   testBuildGlobals: function(test) {
@@ -148,6 +149,21 @@ module.exports = {
     eval(result.content.toString()); // jshint ignore:line
     assert.strictEqual('foo bar string', this.myGlobals.TypeOf);
     assert.notStrictEqual(-1, result.content.toString().indexOf('var babelHelpers = {}'));
+    test.done();
+  },
+
+  testUnfoundImportedFile: function(test) {
+    sinon.stub(console, 'warn');
+    assert.doesNotThrow(function() {
+      babelGlobals([{
+        contents: 'import Foo from "/unfound/file";',
+        options: {
+          filename: 'test/assets/TestUnfound.js'
+        }
+      }]);
+    });
+    assert.strictEqual(1, console.warn.callCount);
+    console.warn.restore();
     test.done();
   }
 };

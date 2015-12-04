@@ -84,7 +84,7 @@ function sortModules(results) {
 }
 
 function visit(filePath, orderedArr) {
-  if (visited[filePath]) {
+  if (visited[filePath] || !pathToResults[filePath]) {
     return;
   }
   visited[filePath] = true;
