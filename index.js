@@ -40,7 +40,10 @@ function getUsedExternalHelpers(results) {
 
 function initializeGlobalVar(concat, options) {
   if (!options.skipGlobalVarInit) {
-    var globalAccess = 'this.' + options.globalName;
+    var globalAccess = options.globalName;
+    if (options.storeOnThis) {
+      globalAccess = 'this.' + globalAccess;
+    }
     concat.add(null, globalAccess + ' = ' + globalAccess + ' || {};');
     concat.add(null, globalAccess + 'Named = ' + globalAccess + 'Named || {};');
   }
@@ -51,6 +54,7 @@ function normalizeOptions(options) {
 
   options.globalName = options.globalName || 'myGlobals';
   options.bundleFileName = options.bundleFileName || 'bundle.js';
+  options.storeOnThis = options.storeOnThis === undefined ? true : options.storeOnThis;
 
   options.babel = options.babel || {};
   var globalsPlugin = [babelPluginGlobals, {

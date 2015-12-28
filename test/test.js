@@ -7,7 +7,7 @@ var path = require('path');
 var sinon = require('sinon');
 
 module.exports = {
-  testBuildGlobals: function(test) {
+   testBuildGlobals: function(test) {
     var files = [getFile(path.resolve('test/assets/main.js'))];
     var result = babelGlobals(files);
     assert.ok(result);
@@ -130,6 +130,18 @@ module.exports = {
 
     assert.ok(result.sourceMap);
     assert.strictEqual('myGlobals.js', JSON.parse(result.sourceMap).file);
+
+    test.done();
+  },
+
+  testBuildGlobalsWithFalseStoreOnThis: function(test) {
+    var files = [getFile(path.resolve('test/assets/main.js'))];
+    var result = babelGlobals(files, {globalName: 'foo', storeOnThis: false});
+    assert.ok(result);
+
+    var content = result.content.toString();
+    assert.strictEqual(-1, content.indexOf('this.foo ='));
+    assert.notStrictEqual(-1, content.indexOf('foo ='));
 
     test.done();
   },
