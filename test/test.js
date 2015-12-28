@@ -93,13 +93,21 @@ module.exports = {
     var result = babelGlobals(files, {skipGlobalVarInit: true});
     assert.ok(result);
 
-    var myGlobals = {};
-    var myGlobalsNamed = {};
-    this.myGlobals = myGlobals;
-    this.myGlobalsNamed = myGlobalsNamed;
-    eval(result.content.toString()); // jshint ignore:line
-    assert.strictEqual(myGlobals, this.myGlobals);
-    assert.strictEqual(myGlobalsNamed, this.myGlobalsNamed);
+    var content = result.content.toString();
+    assert.strictEqual(-1, content.indexOf('this.myGlobals ='));
+    assert.strictEqual(-1, content.indexOf('this.myGlobalsNamed ='));
+
+    test.done();
+  },
+
+  testSkipGlobalVariableInitJustNamed: function(test) {
+    var files = [getFile(path.resolve('test/assets/main.js'))];
+    var result = babelGlobals(files, {skipGlobalVarInit: {named: true}});
+    assert.ok(result);
+
+    var content = result.content.toString();
+    assert.notStrictEqual(-1, content.indexOf('this.myGlobals ='));
+    assert.strictEqual(-1, content.indexOf('this.myGlobalsNamed ='));
 
     test.done();
   },

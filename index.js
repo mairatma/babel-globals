@@ -39,12 +39,14 @@ function getUsedExternalHelpers(results) {
 }
 
 function initializeGlobalVar(concat, options) {
-  if (!options.skipGlobalVarInit) {
-    var globalAccess = options.globalName;
-    if (options.storeOnThis) {
-      globalAccess = 'this.' + globalAccess;
-    }
+  var globalAccess = options.globalName;
+  if (options.storeOnThis) {
+    globalAccess = 'this.' + globalAccess;
+  }
+  if (!options.skipGlobalVarInit.default) {
     concat.add(null, globalAccess + ' = ' + globalAccess + ' || {};');
+  }
+  if (!options.skipGlobalVarInit.named) {
     concat.add(null, globalAccess + 'Named = ' + globalAccess + 'Named || {};');
   }
 }
@@ -55,6 +57,7 @@ function normalizeOptions(options) {
   options.globalName = options.globalName || 'myGlobals';
   options.bundleFileName = options.bundleFileName || 'bundle.js';
   options.storeOnThis = options.storeOnThis === undefined ? true : options.storeOnThis;
+  options.skipGlobalVarInit = normalizeSkipGlobalVarInit(options.skipGlobalVarInit);
 
   options.babel = options.babel || {};
   var globalsPlugin = [babelPluginGlobals, {
@@ -63,6 +66,17 @@ function normalizeOptions(options) {
   options.babel.plugins = (options.babel.plugins || []).concat([globalsPlugin, babelPluginExternalHelpers]);
 
   return options;
+}
+
+function normalizeSkipGlobalVarInit(skipGlobalVarInit) {
+  if (skipGlobalVarInit && skipGlobalVarInit.hasOwnProperty('named')) {
+    return skipGlobalVarInit;
+  } else {
+    return {
+      default: skipGlobalVarInit,
+      named: skipGlobalVarInit
+    };
+  }
 }
 
 var visited = {};
