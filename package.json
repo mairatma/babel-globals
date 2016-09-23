@@ -29,7 +29,7 @@
     "babel-core": "^6.1.2",
     "babel-deps": "^2.0.0",
     "babel-plugin-external-helpers-2": "^6.0.15",
-    "babel-plugin-globals": "^1.0.1",
+    "babel-plugin-globals": "^2.0.0",
     "concat-with-sourcemaps": "^1.0.2"
   },
   "devDependencies": {
